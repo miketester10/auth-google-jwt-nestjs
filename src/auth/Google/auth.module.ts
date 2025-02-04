@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { AppController } from './auth.controller';
-import { AppService } from './auth.service';
 import { GoogleStrategy } from './google.strategy';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
+  imports: [UserModule],
   controllers: [AppController],
-  providers: [AppService, GoogleStrategy],
+  providers: [GoogleStrategy],
 })
 export class AuthModule {}

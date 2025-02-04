@@ -1,16 +1,15 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/require-await */
 
-import { Controller, Get, Res, UseGuards } from '@nestjs/common';
-import { Response } from 'express';
-import { AppService } from './auth.service';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Request } from 'express';
 import { GoogleOAuthGuard } from './guards/auth.guard';
-import { CustomReq } from '../../common/decorators/custom-req.decorator';
-import { Token } from '../../common/interfaces/token.interface';
+// import { CustomReq } from '../../common/decorators/custom-req.decorator';
+// import { Token } from '../../common/interfaces/token.interface';
 
 @Controller('auth/google')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor() {}
 
   @Get()
   @UseGuards(GoogleOAuthGuard)
@@ -18,8 +17,7 @@ export class AppController {
 
   @Get('/callback')
   @UseGuards(GoogleOAuthGuard)
-  async googleCallback(@CustomReq() token: Token, @Res() res: Response) {
-    // console.log(token.jwt);
-    return res.redirect(`http://localhost:3000/dashboard?token=${token.jwt}`);
+  async googleCallback(@Req() req: Request) {
+    return req.user;
   }
 }
