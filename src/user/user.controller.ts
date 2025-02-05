@@ -3,6 +3,7 @@ import { Controller, Get, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/JWT/guards/jwt.guards';
 import { UserService } from './user.service';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { GoogleUser } from './entities/user.entity';
 
 @Controller('user')
 export class UserController {
@@ -10,7 +11,7 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  profile(@CurrentUser() providerId: string) {
-    return this.userService.profile(providerId);
+  async profile(@CurrentUser() providerId: string): Promise<GoogleUser> {
+    return await this.userService.profile(providerId);
   }
 }

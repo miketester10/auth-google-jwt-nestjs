@@ -16,7 +16,9 @@ export class GoogleController {
 
   @Get('/callback')
   @UseGuards(GoogleOAuthGuard)
-  async googleCallback(@CurrentUser() user: GoogleUser) {
+  async googleCallback(
+    @CurrentUser() user: GoogleUser,
+  ): Promise<{ token: string; user: GoogleUser }> {
     const token = await this.jwtService.signToken(user);
     return { token, user };
   }
