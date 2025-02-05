@@ -9,10 +9,11 @@ import { GoogleUser } from 'src/user/entities/user.entity';
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(
-    protected readonly configService: ConfigService,
+    private readonly configService: ConfigService,
     private readonly userService: UserService,
   ) {
     super({
+
       clientID: <string>configService.get('GOOGLE_CLIENT_ID'),
       clientSecret: <string>configService.get('GOOGLE_CLIENT_SECRET'),
       callbackURL: <string>configService.get('GOOGLE_CALLBACK_URL'),

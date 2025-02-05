@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AuthModule } from './auth/Google/auth.module';
+import { GoogleAuthModule } from './auth/Google/google.module';
+import { JwtAuthModule } from './auth/JWT/jwt.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 
@@ -25,7 +26,8 @@ import { UserModule } from './user/user.module';
       inject: [ConfigService],
     }),
 
-    AuthModule,
+    GoogleAuthModule,
+    JwtAuthModule,
     UserModule,
   ],
 })
