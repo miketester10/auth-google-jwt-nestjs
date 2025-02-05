@@ -16,16 +16,16 @@ export class GoogleUser {
   provider: string;
 
   @Column({ nullable: true })
-  email: string;
+  email?: string;
 
   @Column({ nullable: true })
-  firstName: string;
+  firstName?: string;
 
   @Column({ nullable: true })
-  lastName: string;
+  lastName?: string;
 
   @Column({ nullable: true })
-  picture: string;
+  picture?: string;
 
   @CreateDateColumn()
   createdAt: Date;
