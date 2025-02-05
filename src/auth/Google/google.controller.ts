@@ -8,7 +8,7 @@ import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 
 @Controller('auth/google')
 export class GoogleController {
-  constructor(private readonly jwtService: JwtAuthService) {}
+  constructor(private readonly jwtAuthService: JwtAuthService) {}
 
   @Get()
   @UseGuards(GoogleOAuthGuard)
@@ -19,7 +19,7 @@ export class GoogleController {
   async googleCallback(
     @CurrentUser() user: GoogleUser,
   ): Promise<{ token: string; user: GoogleUser }> {
-    const token = await this.jwtService.signToken(user);
+    const token = await this.jwtAuthService.signToken(user);
     return { token, user };
   }
 }
