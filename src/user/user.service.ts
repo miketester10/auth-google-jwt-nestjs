@@ -42,12 +42,7 @@ export class UserService {
   }
 
   async profile(providerId: string): Promise<GoogleUser> {
-    const user = await this.userRepository.findOne({ where: { providerId } });
-
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
+    const user = await this.checkIfUserExists(providerId);
     return user;
   }
 
