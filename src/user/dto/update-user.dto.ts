@@ -9,8 +9,8 @@ export class UpdateUserDto {
 
   @IsOptional()
   @IsString()
-  @Transform(({ value }) => typeof value === 'string' && value.trim())
   @Length(2, 50)
+  @Transform(({ value }) => typeof value === 'string' && value.trim())
   firstName?: string;
 
   @IsOptional()
