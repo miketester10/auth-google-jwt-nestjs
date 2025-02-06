@@ -1,20 +1,9 @@
 /* eslint-disable prettier/prettier */
-import {
-  Entity,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  PrimaryColumn,
-} from 'typeorm';
+import { Entity, Column } from 'typeorm';
+import { BaseEntity } from './base-entity';
 
 @Entity('google_users')
-export class GoogleUser {
-  @PrimaryColumn()
-  providerId: string;
-
-  @Column()
-  provider: string;
-
+export class GoogleUser extends BaseEntity {
   @Column({ nullable: true })
   email?: string;
 
@@ -26,10 +15,4 @@ export class GoogleUser {
 
   @Column({ nullable: true })
   picture?: string;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }
