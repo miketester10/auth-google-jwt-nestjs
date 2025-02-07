@@ -42,8 +42,7 @@ export class UserService {
   }
 
   async profile(providerId: string): Promise<GoogleUser> {
-    const user = await this.checkIfUserExists(providerId);
-    return user;
+    return await this.checkIfUserExists(providerId);
   }
 
   private async checkIfUserExists(providerId: string): Promise<GoogleUser> {
