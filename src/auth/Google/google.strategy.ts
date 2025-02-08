@@ -5,6 +5,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from 'src/user/user.service';
 import { GoogleUser } from 'src/user/entities/user.entity';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
@@ -13,7 +14,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     private readonly userService: UserService,
   ) {
     super({
-
       clientID: <string>configService.get('GOOGLE_CLIENT_ID'),
       clientSecret: <string>configService.get('GOOGLE_CLIENT_SECRET'),
       callbackURL: <string>configService.get('GOOGLE_CALLBACK_URL'),
@@ -27,7 +27,8 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     profile: Profile,
   ): Promise<GoogleUser> {
     const { name, emails, photos } = profile;
-    const user = {
+
+    const createUserDto: CreateUserDto = {
       providerId: profile.id,
       provider: profile.provider,
       email: emails?.[0]?.value,
@@ -36,6 +37,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       picture: photos?.[0]?.value,
     };
 
-    return await this.userService.findOrCreateGoogleUser(user);
+    return this.userService.findOrCreateGoogleUser(createUserDto);
   }
 }

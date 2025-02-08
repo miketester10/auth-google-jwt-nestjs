@@ -12,7 +12,7 @@ import { JwtPayload } from '../interfaces/jwt-payload.interface';
 
 export const AuthorizationRoleGuard = (allowedRoles: string[]) => {
   class RoleGuardMixin implements CanActivate {
-    canActivate(context: ExecutionContext) {
+    canActivate(context: ExecutionContext): boolean {
       const { user }: { user: JwtPayload } = context
         .switchToHttp()
         .getRequest();

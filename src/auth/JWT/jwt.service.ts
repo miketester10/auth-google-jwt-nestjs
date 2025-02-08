@@ -14,6 +14,6 @@ export class JwtAuthService {
       role: user.role,
     };
 
-    return await this.jwtService.signAsync(payload);
+    return this.jwtService.signAsync(payload);
   }
 }

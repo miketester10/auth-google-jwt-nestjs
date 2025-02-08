@@ -18,7 +18,7 @@ export class UserController {
 
   @Get('profile')
   async findOne(@CurrentUser() payload: JwtPayload): Promise<GoogleUser> {
-    return await this.userService.findOne(payload.sub);
+    return this.userService.findOne(payload.sub);
   }
 
   @Put('profile')
@@ -26,17 +26,17 @@ export class UserController {
     @CurrentUser() payload: JwtPayload,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<GoogleUser> {
-    return await this.userService.update(payload.sub, updateUserDto);
+    return this.userService.update(payload.sub, updateUserDto);
   }
 
   @Delete('profile')
   async remove(@CurrentUser() payload: JwtPayload): Promise<GoogleUser> {
-    return await this.userService.remove(payload.sub);
+    return this.userService.remove(payload.sub);
   }
 
   @UseGuards(AuthorizationRoleGuard([Role.ADMIN]))
   @Get()
   async findAll(): Promise<GoogleUser[]> {
-    return await this.userService.findAll();
+    return this.userService.findAll();
   }
 }
