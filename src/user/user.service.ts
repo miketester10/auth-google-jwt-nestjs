@@ -36,13 +36,17 @@ export class UserService {
     return await this.userRepository.save({ ...user, ...updateUserDto });
   }
 
-  async delete(providerId: string): Promise<GoogleUser> {
+  async remove(providerId: string): Promise<GoogleUser> {
     const user = await this.checkIfUserExists(providerId);
     return await this.userRepository.remove(user);
   }
 
-  async profile(providerId: string): Promise<GoogleUser> {
+  async findOne(providerId: string): Promise<GoogleUser> {
     return await this.checkIfUserExists(providerId);
+  }
+
+  async findAll(): Promise<GoogleUser[]> {
+    return await this.userRepository.find();
   }
 
   private async checkIfUserExists(providerId: string): Promise<GoogleUser> {

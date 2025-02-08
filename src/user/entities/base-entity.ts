@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 
+import { Role } from 'src/common/enums/role.enum';
 import {
   Column,
   CreateDateColumn,
@@ -13,6 +14,9 @@ export class BaseEntity {
 
   @Column()
   provider: string;
+
+  @Column({ type: 'enum', enum: Role, default: Role.USER })
+  role: Role;
 
   @CreateDateColumn()
   createdAt: Date;

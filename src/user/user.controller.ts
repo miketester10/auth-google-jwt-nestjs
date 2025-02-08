@@ -6,32 +6,37 @@ import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { GoogleUser } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { JwtPayload } from 'src/common/interfaces/jwt-payload.interface';
+import { AuthorizationRoleGuard } from 'src/common/guards/authorization-role.guard';
+import { Role } from 'src/common/enums/role.enum';
 
-@Controller('user')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, AuthorizationRoleGuard([Role.USER]))
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
-  @Put()
+  @Get('profile')
+  async findOne(@CurrentUser() payload: JwtPayload): Promise<GoogleUser> {
+    return await this.userService.findOne(payload.sub);
+  }
+
+  @Put('profile')
   async update(
-    @CurrentUser() providerId: string,
+    @CurrentUser() payload: JwtPayload,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<GoogleUser> {
-    return await this.userService.update(providerId, updateUserDto);
+    return await this.userService.update(payload.sub, updateUserDto);
   }
 
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
-  @Delete()
-  async delete(@CurrentUser() providerId: string): Promise<GoogleUser> {
-    return await this.userService.delete(providerId);
+  @Delete('profile')
+  async remove(@CurrentUser() payload: JwtPayload): Promise<GoogleUser> {
+    return await this.userService.remove(payload.sub);
   }
 
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  async profile(@CurrentUser() providerId: string): Promise<GoogleUser> {
-    return await this.userService.profile(providerId);
+  @UseGuards(AuthorizationRoleGuard([Role.ADMIN]))
+  @Get()
+  async findAll(): Promise<GoogleUser[]> {
+    return await this.userService.findAll();
   }
 }
