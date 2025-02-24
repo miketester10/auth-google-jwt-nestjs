@@ -22,7 +22,6 @@ export class ThrottlerExceptionFilter implements ExceptionFilter {
         message: 'API rate limit exceeded. Please try again later.',
       });
     } else {
-      console.log(exception.getResponse())
       response.status(exception.getStatus()).json(exception.getResponse());
     }
   }
