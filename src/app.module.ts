@@ -4,9 +4,24 @@ import { GoogleAuthModule } from './auth/Google/google.module';
 import { JwtAuthModule } from './auth/JWT/jwt.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot([
+      {
+        name: 'auth',
+        ttl: 60 * 1000,
+        limit: 4,
+      },
+      {
+        name: 'user',
+        ttl: 60 * 1000,
+        limit: 1000,
+      },
+    ]),
+
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -29,6 +44,13 @@ import { UserModule } from './user/user.module';
     GoogleAuthModule,
     JwtAuthModule,
     UserModule,
+  ],
+
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}

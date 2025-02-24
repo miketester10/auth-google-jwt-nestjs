@@ -9,7 +9,9 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 import { JwtPayload } from 'src/common/interfaces/jwt-payload.interface';
 import { AuthorizationRoleGuard } from 'src/common/guards/authorization-role.guard';
 import { Role } from 'src/common/enums/role.enum';
+import { SkipThrottle } from '@nestjs/throttler';
 
+@SkipThrottle( { "auth": true })
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, AuthorizationRoleGuard([Role.USER]))
 @Controller('users')
