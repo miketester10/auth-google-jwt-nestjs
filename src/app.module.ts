@@ -28,6 +28,7 @@ import { APP_GUARD } from '@nestjs/core';
 
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
+      inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         host: configService.get('DB_HOST'),
@@ -38,7 +39,6 @@ import { APP_GUARD } from '@nestjs/core';
         entities: ['dist/**/*.entity{.ts,.js}'],
         synchronize: configService.get('NODE_ENV') !== 'production',
       }),
-      inject: [ConfigService],
     }),
 
     GoogleAuthModule,

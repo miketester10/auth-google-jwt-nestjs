@@ -11,7 +11,7 @@ import { AuthorizationRoleGuard } from 'src/common/guards/authorization-role.gua
 import { Role } from 'src/common/enums/role.enum';
 import { SkipThrottle } from '@nestjs/throttler';
 
-@SkipThrottle( { "auth": true })
+@SkipThrottle({ auth: true })
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, AuthorizationRoleGuard([Role.USER]))
 @Controller('users')
