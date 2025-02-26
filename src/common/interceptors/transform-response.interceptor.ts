@@ -8,16 +8,11 @@ import {
 } from '@nestjs/common';
 import { map, Observable } from 'rxjs';
 import { Response } from 'express';
-
-interface ResponseFormat<T> {
-  message: string;
-  statusCode: number;
-  data: T;
-}
+import { ResponseFormat } from '../interfaces/response-format.interface';
 
 @Injectable()
-export class TransformResponseInterceptor<T>
-  implements NestInterceptor<T, ResponseFormat<T>>
+export class TransformResponseInterceptor<T> // T is the type of data that will be returned by the handler (controller)
+  implements NestInterceptor<T, ResponseFormat<T>> // first T is the type of data that will be returned by the handler (controller), second T is the type of data that will be returned by the interceptor.
 {
   intercept(
     context: ExecutionContext,
