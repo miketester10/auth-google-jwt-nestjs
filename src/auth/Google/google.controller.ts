@@ -1,11 +1,13 @@
 /* eslint-disable prettier/prettier */
 
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, UseGuards, UseInterceptors } from '@nestjs/common';
 import { GoogleOAuthGuard } from './guards/google.guard';
 import { JwtAuthService } from '../JWT/jwt.service';
 import { GoogleUser } from 'src/user/entities/user.entity';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { TransformResponseInterceptor } from 'src/common/interceptors/transform-response.interceptor';
 
+@UseInterceptors(TransformResponseInterceptor)
 @Controller('auth/google')
 export class GoogleController {
   constructor(private readonly jwtAuthService: JwtAuthService) {}

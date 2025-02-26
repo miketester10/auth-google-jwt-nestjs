@@ -18,8 +18,8 @@ export class ThrottlerExceptionFilter implements ExceptionFilter {
 
     if (exception.getStatus() === HttpStatus.TOO_MANY_REQUESTS) {
       response.status(HttpStatus.TOO_MANY_REQUESTS).json({
-        statusCode: HttpStatus.TOO_MANY_REQUESTS,
         message: 'API rate limit exceeded. Please try again later.',
+        statusCode: HttpStatus.TOO_MANY_REQUESTS,
       });
     } else {
       response.status(exception.getStatus()).json(exception.getResponse());
