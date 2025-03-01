@@ -1,15 +1,32 @@
 version: '3.8'
+  
 services:
-  postgres:
-    image: postgres:15-alpine
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: test_db
+  # Servizio per l'app NestJS
+  nestjs-app:
+    build: .
+    container_name: nestjs-app
     ports:
-      - "5432:5432"
+      - "8080:8080" # Esponi la porta 8080 per l'accesso pubblico
+    env_file:
+      - .env.production.local  # Carica le variabili d'ambiente dal file .env
+    depends_on:
+      - postgres  # Assicurati che il DB PostgreSQL venga avviato prima dell'app NestJS
+
+  # Servizio per il DB PostgreSQL
+  postgres:
+    image: postgres:13
+    container_name: nestjs-postgres
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}  # Mappa la variabile dal file .env
+      POSTGRES_PASSWORD: ${DB_PASSWORD}  # Mappa la variabile dal file .env
+      POSTGRES_DB: ${DB_NAME}  # Mappa la variabile dal file .env
+    env_file:
+      - .env.production.local  # Carica le variabili d'ambiente dal file .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"  # Porta di accesso al DB
 
+# Volumi per persistere i dati di PostgreSQL
 volumes:
-  postgres_data: 
+  postgres_data:
