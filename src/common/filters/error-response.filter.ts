@@ -18,6 +18,14 @@ export class ErrorResponseFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const statusCode = exception.getStatus();
 
+    const responseException: string | object = exception.getResponse();
+    const message =
+      typeof responseException === 'string'
+        ? responseException
+        : (responseException as HttpExceptionBody).message;
+
+    console.log(message);
+
     if (statusCode === HttpStatus.TOO_MANY_REQUESTS) {
       response.status(statusCode).json({
         message: 'API rate limit exceeded. Please try again later.',
@@ -26,8 +34,6 @@ export class ErrorResponseFilter implements ExceptionFilter {
       return;
     }
 
-    const responseException = <HttpExceptionBody>exception.getResponse();
-    const { message } = responseException;
     response.status(statusCode).json({ message, statusCode });
   }
 }
