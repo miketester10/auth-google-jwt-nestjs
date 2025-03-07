@@ -24,8 +24,6 @@ export class ErrorResponseFilter implements ExceptionFilter {
         ? responseException
         : (responseException as HttpExceptionBody).message;
 
-    console.log(message);
-
     if (statusCode === HttpStatus.TOO_MANY_REQUESTS) {
       response.status(statusCode).json({
         message: 'API rate limit exceeded. Please try again later.',
