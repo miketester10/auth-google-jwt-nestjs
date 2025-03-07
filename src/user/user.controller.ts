@@ -18,10 +18,10 @@ import { JwtPayload } from 'src/common/interfaces/jwt-payload.interface';
 import { AuthorizationRoleGuard } from 'src/common/guards/authorization-role.guard';
 import { Role } from 'src/common/enums/role.enum';
 import { SkipThrottle } from '@nestjs/throttler';
-import { TransformResponseInterceptor } from 'src/common/interceptors/transform-response.interceptor';
+import { SuccessResponseInterceptor } from 'src/common/interceptors/success-response.interceptor';
 
 @SkipThrottle({ auth: true })
-@UseInterceptors(TransformResponseInterceptor)
+@UseInterceptors(SuccessResponseInterceptor)
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, AuthorizationRoleGuard([Role.USER]))
 @Controller('users')

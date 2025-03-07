@@ -11,7 +11,7 @@ import { Response } from 'express';
 import { ResponseFormat } from '../interfaces/response-format.interface';
 
 @Injectable()
-export class TransformResponseInterceptor<T> // T is the type of data that will be returned by the handler (controller)
+export class SuccessResponseInterceptor<T> // T is the type of data that will be returned by the handler (controller)
   implements NestInterceptor<T, ResponseFormat<T>> // first T is the type of data that will be returned by the handler (controller), second T is the type of data that will be returned by the interceptor.
 {
   intercept(

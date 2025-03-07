@@ -5,7 +5,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { RequestMethod } from '@nestjs/common';
-import { ThrottlerExceptionFilter } from './common/filters/throttler-exception.filter';
+import { ErrorResponseFilter } from './common/filters/error-response.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -37,9 +37,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
-  app.useGlobalFilters(new ThrottlerExceptionFilter());
+  app.useGlobalFilters(new ErrorResponseFilter());
 
   await app.listen(process.env.PORT ?? 8080);
 }
 
-bootstrap();
+void bootstrap();

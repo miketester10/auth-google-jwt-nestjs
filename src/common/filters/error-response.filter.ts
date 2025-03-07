@@ -7,11 +7,12 @@ import {
   ArgumentsHost,
   HttpException,
   HttpStatus,
+  HttpExceptionBody,
 } from '@nestjs/common';
 import { Response } from 'express';
 
 @Catch(HttpException)
-export class ThrottlerExceptionFilter implements ExceptionFilter {
+export class ErrorResponseFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
@@ -22,7 +23,9 @@ export class ThrottlerExceptionFilter implements ExceptionFilter {
         statusCode: HttpStatus.TOO_MANY_REQUESTS,
       });
     } else {
-      response.status(exception.getStatus()).json(exception.getResponse());
+      const responseException = <HttpExceptionBody>exception.getResponse();
+      const { message, statusCode } = responseException;
+      response.status(exception.getStatus()).json({ message, statusCode });
     }
   }
 }
