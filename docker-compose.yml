@@ -1,15 +1,27 @@
 version: '3.8'
+  
 services:
-  postgres:
-    image: postgres:15-alpine
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: test_db
+  # Servizio per l'app NestJS
+  nestjs-app:
+    build: .
+    container_name: nestjs-app
     ports:
-      - "5432:5432"
+      - "8080:8080"
+    env_file:
+      - .env.production.local
+    depends_on:
+      - postgres
+
+  # Servizio per il DB PostgreSQL
+  postgres:
+    image: postgres:13
+    container_name: nestjs-postgres
+    env_file:
+      - .env.production.local
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 
 volumes:
-  postgres_data: 
+  postgres_data:
