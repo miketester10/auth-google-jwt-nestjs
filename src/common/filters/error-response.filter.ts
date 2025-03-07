@@ -13,19 +13,21 @@ import { Response } from 'express';
 
 @Catch(HttpException)
 export class ErrorResponseFilter implements ExceptionFilter {
-  catch(exception: HttpException, host: ArgumentsHost) {
+  catch(exception: HttpException, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
+    const statusCode = exception.getStatus();
 
-    if (exception.getStatus() === HttpStatus.TOO_MANY_REQUESTS) {
-      response.status(HttpStatus.TOO_MANY_REQUESTS).json({
+    if (statusCode === HttpStatus.TOO_MANY_REQUESTS) {
+      response.status(statusCode).json({
         message: 'API rate limit exceeded. Please try again later.',
-        statusCode: HttpStatus.TOO_MANY_REQUESTS,
+        statusCode: statusCode,
       });
-    } else {
-      const responseException = <HttpExceptionBody>exception.getResponse();
-      const { message, statusCode } = responseException;
-      response.status(exception.getStatus()).json({ message, statusCode });
+      return;
     }
+
+    const responseException = <HttpExceptionBody>exception.getResponse();
+    const { message } = responseException;
+    response.status(statusCode).json({ message, statusCode });
   }
 }
