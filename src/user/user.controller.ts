@@ -20,9 +20,9 @@ import { Role } from 'src/common/enums/role.enum';
 import { SkipThrottle } from '@nestjs/throttler';
 import { SuccessResponseInterceptor } from 'src/common/interceptors/success-response.interceptor';
 
+@ApiBearerAuth()
 @SkipThrottle({ auth: true })
 @UseInterceptors(SuccessResponseInterceptor)
-@ApiBearerAuth()
 @UseGuards(JwtAuthGuard, AuthorizationRoleGuard([Role.USER]))
 @Controller('users')
 export class UserController {

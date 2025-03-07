@@ -8,16 +8,15 @@ import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { SuccessResponseInterceptor } from 'src/common/interceptors/success-response.interceptor';
 
 @UseInterceptors(SuccessResponseInterceptor)
+@UseGuards(GoogleOAuthGuard)
 @Controller('auth/google')
 export class GoogleController {
   constructor(private readonly jwtAuthService: JwtAuthService) {}
 
   @Get()
-  @UseGuards(GoogleOAuthGuard)
   async googleAuth() {}
 
   @Get('/callback')
-  @UseGuards(GoogleOAuthGuard)
   async googleCallback(
     @CurrentUser() user: GoogleUser,
   ): Promise<{ token: string; user: GoogleUser }> {
