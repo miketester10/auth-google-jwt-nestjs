@@ -25,10 +25,10 @@ export class UserRepository extends BaseRepository<GoogleUser> {
     providerId: string,
     options?: FindOneOptions<GoogleUser>,
   ): Promise<GoogleUser | null> {
-    const where = {
+    const filterCondition = {
       where: { providerId },
       ...options,
     } as FindOneOptions<GoogleUser>;
-    return await this.repository.findOne(where);
+    return await this.repository.findOne(filterCondition);
   }
 }

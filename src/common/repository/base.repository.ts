@@ -38,8 +38,8 @@ export abstract class BaseRepository<T extends Record<string, any>> {
     id: string | number,
     options?: FindOneOptions<T>,
   ): Promise<T | null> {
-    const where = { where: { id }, ...options } as FindOneOptions<T>;
-    return await this.repository.findOne(where);
+    const filterCondition = { where: { id }, ...options } as FindOneOptions<T>;
+    return await this.repository.findOne(filterCondition);
   }
 
   /**
