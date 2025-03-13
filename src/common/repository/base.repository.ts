@@ -4,9 +4,10 @@ import {
   FindOneOptions,
   DeepPartial,
   FindManyOptions,
+  ObjectLiteral,
 } from 'typeorm';
 
-export abstract class BaseRepository<T extends Record<string, any>> {
+export abstract class BaseRepository<T extends ObjectLiteral> {
   constructor(protected readonly repository: Repository<T>) {}
 
   /**
@@ -29,17 +30,12 @@ export abstract class BaseRepository<T extends Record<string, any>> {
   }
 
   /**
-   * Trova un record per id
-   * @param id - id dell'entità
+   * Trova un record per condizione
    * @param options - Opzioni di ricerca TypeORM
    * @returns L'entità trovata
    */
-  async findOne(
-    id: string | number,
-    options?: FindOneOptions<T>,
-  ): Promise<T | null> {
-    const filterCondition = { where: { id }, ...options } as FindOneOptions<T>;
-    return await this.repository.findOne(filterCondition);
+  async findByCondition(options: FindOneOptions<T>): Promise<T | null> {
+    return this.repository.findOne(options);
   }
 
   /**
@@ -59,6 +55,6 @@ export abstract class BaseRepository<T extends Record<string, any>> {
    * @returns L'entità eliminata
    */
   async remove(entity: T): Promise<T> {
-    return await this.repository.remove(entity);
+    return this.repository.remove(entity);
   }
 }

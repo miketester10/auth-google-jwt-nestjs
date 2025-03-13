@@ -12,7 +12,10 @@ export class UserService {
   async findOrCreateGoogleUser(
     createUserDto: CreateUserDto,
   ): Promise<GoogleUser> {
-    let user = await this.userRepository.findOne(createUserDto.providerId);
+    const { providerId } = createUserDto;
+    let user = await this.userRepository.findByCondition({
+      where: { providerId },
+    });
 
     if (!user) {
       user = await this.userRepository.create(createUserDto);
@@ -43,7 +46,9 @@ export class UserService {
   }
 
   private async checkIfUserExists(providerId: string): Promise<GoogleUser> {
-    const user = await this.userRepository.findOne(providerId);
+    const user = await this.userRepository.findByCondition({
+      where: { providerId },
+    });
 
     if (!user) {
       throw new NotFoundException('User not found');

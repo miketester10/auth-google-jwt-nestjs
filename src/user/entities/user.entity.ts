@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { BaseEntity } from './base-entity';
+import { Todo } from 'src/todo/entities/todo.entity';
 
 @Entity('google_users')
 export class GoogleUser extends BaseEntity {
@@ -15,4 +16,7 @@ export class GoogleUser extends BaseEntity {
 
   @Column({ nullable: true })
   picture?: string;
+
+  @OneToMany(() => Todo, (todo) => todo.user)
+  todos: Todo[];
 }
