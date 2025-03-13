@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { TodoModule } from './todo/todo.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { APP_GUARD } from '@nestjs/core';
     GoogleAuthModule,
     JwtAuthModule,
     UserModule,
+    TodoModule,
   ],
 
   providers: [
