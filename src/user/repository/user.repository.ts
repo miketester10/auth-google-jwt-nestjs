@@ -21,7 +21,7 @@ export class UserRepository extends BaseRepository<GoogleUser> {
    * @param options - Opzioni di ricerca TypeORM
    * @returns L'entità trovata
    */
-  async findOne(
+  override async findOne(
     providerId: string,
     options?: FindOneOptions<GoogleUser>,
   ): Promise<GoogleUser | null> {
