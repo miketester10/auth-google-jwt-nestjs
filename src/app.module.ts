@@ -17,7 +17,7 @@ import { TodoModule } from './todo/todo.module';
         limit: 4,
       },
       {
-        name: 'user',
+        name: 'general',
         ttl: 60 * 1000,
         limit: 1000,
       },

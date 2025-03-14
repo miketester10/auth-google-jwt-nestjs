@@ -4,11 +4,11 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   UseInterceptors,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
@@ -20,7 +20,11 @@ import { Todo } from './entities/todo.entity';
 import { JwtAuthGuard } from 'src/auth/JWT/guards/jwt.guards';
 import { AuthorizationRoleGuard } from 'src/common/guards/authorization-role.guard';
 import { Role } from 'src/common/enums/role.enum';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { SkipThrottle } from '@nestjs/throttler';
 
+@ApiBearerAuth()
+@SkipThrottle({ auth: true })
 @UseInterceptors(SuccessResponseInterceptor)
 @UseGuards(JwtAuthGuard, AuthorizationRoleGuard([Role.USER]))
 @Controller('todo')
@@ -28,30 +32,40 @@ export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @Post()
-  create(@Body() createTodoDto: CreateTodoDto) {
-    return this.todoService.create(createTodoDto);
+  async create(
+    @Body() createTodoDto: CreateTodoDto,
+    @CurrentUser() payload: JwtPayload,
+  ): Promise<Todo> {
+    return this.todoService.create(createTodoDto, payload.sub);
   }
 
   @Get()
-  findAll() {
-    return this.todoService.findAll();
+  async findAll(@CurrentUser() payload: JwtPayload): Promise<Todo[]> {
+    return this.todoService.findAll(payload.sub);
   }
 
   @Get(':id')
-  findOne(
+  async findOne(
     @Param('id') id: string,
     @CurrentUser() payload: JwtPayload,
   ): Promise<Todo> {
     return this.todoService.findOne(+id, payload.sub);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto) {
-    return this.todoService.update(+id, updateTodoDto);
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateTodoDto: UpdateTodoDto,
+    @CurrentUser() payload: JwtPayload,
+  ): Promise<Todo> {
+    return this.todoService.update(+id, updateTodoDto, payload.sub);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.todoService.remove(+id);
+  async remove(
+    @Param('id') id: string,
+    @CurrentUser() payload: JwtPayload,
+  ): Promise<Todo> {
+    return this.todoService.remove(+id, payload.sub);
   }
 }

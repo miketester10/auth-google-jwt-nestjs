@@ -15,6 +15,7 @@ export class CreateTodoDto extends BaseDto {
   @Transform(({ value }) => typeof value === 'string' && value.trim())
   description?: string;
 
+  @IsOptional()
   @IsBoolean()
-  completed: boolean;
+  completed?: boolean;
 }
