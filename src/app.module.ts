@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GoogleAuthModule } from './auth/Google/google.module';
@@ -10,18 +11,21 @@ import { TodoModule } from './todo/todo.module';
 
 @Module({
   imports: [
-    ThrottlerModule.forRoot([
-      {
-        name: 'auth',
-        ttl: 60 * 1000,
-        limit: 4,
-      },
-      {
-        name: 'general',
-        ttl: 60 * 1000,
-        limit: 1000,
-      },
-    ]),
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          name: 'auth',
+          ttl: 60 * 1000,
+          limit: 4,
+        },
+        {
+          name: 'general',
+          ttl: 60 * 1000,
+          limit: 1000,
+        },
+      ],
+      errorMessage: 'API rate limit exceeded. Please try again later.',
+    }),
 
     ConfigModule.forRoot({
       isGlobal: true,

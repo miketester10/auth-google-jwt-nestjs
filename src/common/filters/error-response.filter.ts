@@ -1,12 +1,10 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 
 import {
   ExceptionFilter,
   Catch,
   ArgumentsHost,
   HttpException,
-  HttpStatus,
   HttpExceptionBody,
 } from '@nestjs/common';
 import { Response } from 'express';
@@ -19,14 +17,10 @@ export class ErrorResponseFilter implements ExceptionFilter {
     const statusCode = exception.getStatus();
 
     const responseException: string | object = exception.getResponse();
-    let message =
+    const message =
       typeof responseException === 'string'
         ? responseException
         : (responseException as HttpExceptionBody).message;
-
-    if (statusCode === HttpStatus.TOO_MANY_REQUESTS) {
-      message = 'API rate limit exceeded. Please try again later.';
-    }
 
     response.status(statusCode).json({ message, statusCode });
   }
