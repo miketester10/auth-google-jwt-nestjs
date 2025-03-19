@@ -4,7 +4,7 @@ services:
   # Servizio per l'app NestJS
   nestjs-app:
     build: .
-    container_name: nestjs-app
+    container_name: TodoApp-NestJS
     ports:
       - "8080:8080"
     env_file:
@@ -15,7 +15,7 @@ services:
   # Servizio per il DB PostgreSQL
   postgres:
     image: postgres:13
-    container_name: nestjs-postgres
+    container_name: PostgreSQL
     env_file:
       - .env.production.local
     volumes:
