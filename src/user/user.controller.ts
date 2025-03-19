@@ -22,7 +22,6 @@ import { SuccessResponseInterceptor } from 'src/common/interceptors/success-resp
 
 @ApiBearerAuth()
 @SkipThrottle({ auth: true })
-@UseInterceptors(SuccessResponseInterceptor)
 @UseGuards(JwtAuthGuard, AuthorizationRoleGuard([Role.USER]))
 @Controller('users')
 export class UserController {

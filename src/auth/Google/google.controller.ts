@@ -7,7 +7,6 @@ import { GoogleUser } from 'src/user/entities/user.entity';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { SuccessResponseInterceptor } from 'src/common/interceptors/success-response.interceptor';
 
-@UseInterceptors(SuccessResponseInterceptor)
 @UseGuards(GoogleOAuthGuard)
 @Controller('auth/google')
 export class GoogleController {

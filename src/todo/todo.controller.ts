@@ -25,7 +25,6 @@ import { SkipThrottle } from '@nestjs/throttler';
 
 @ApiBearerAuth()
 @SkipThrottle({ auth: true })
-@UseInterceptors(SuccessResponseInterceptor)
 @UseGuards(JwtAuthGuard, AuthorizationRoleGuard([Role.USER]))
 @Controller('todo')
 export class TodoController {

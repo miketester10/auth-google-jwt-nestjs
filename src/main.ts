@@ -6,6 +6,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { RequestMethod } from '@nestjs/common';
 import { ErrorResponseFilter } from './common/filters/error-response.filter';
+import { SuccessResponseInterceptor } from './common/interceptors/success-response.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -37,7 +38,8 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
-  app.useGlobalFilters(new ErrorResponseFilter());
+  app.useGlobalInterceptors(new SuccessResponseInterceptor()); // Formatta le risposte di successo a livello globale
+  app.useGlobalFilters(new ErrorResponseFilter()); // Formatta le risposte di errore a livello globale
 
   await app.listen(process.env.PORT ?? 8080);
 }
