@@ -6,15 +6,13 @@ import {
   Body,
   Param,
   Delete,
-  UseInterceptors,
   UseGuards,
   Put,
-  ParseIntPipe
+  ParseIntPipe,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
-import { SuccessResponseInterceptor } from 'src/common/interceptors/success-response.interceptor';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { JwtPayload } from 'src/common/interfaces/jwt-payload.interface';
 import { Todo } from './entities/todo.entity';

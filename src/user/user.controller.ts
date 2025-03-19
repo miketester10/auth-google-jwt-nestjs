@@ -1,13 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Put,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Put, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/JWT/guards/jwt.guards';
 import { UserService } from './user.service';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
@@ -18,7 +10,6 @@ import { JwtPayload } from 'src/common/interfaces/jwt-payload.interface';
 import { AuthorizationRoleGuard } from 'src/common/guards/authorization-role.guard';
 import { Role } from 'src/common/enums/role.enum';
 import { SkipThrottle } from '@nestjs/throttler';
-import { SuccessResponseInterceptor } from 'src/common/interceptors/success-response.interceptor';
 
 @ApiBearerAuth()
 @SkipThrottle({ auth: true })
