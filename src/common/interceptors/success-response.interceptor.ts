@@ -24,8 +24,8 @@ export class SuccessResponseInterceptor<T>
       .getResponse<Response>().statusCode;
 
     return next.handle().pipe(
-      map((data: T) => {
-        const response: ResponseFormat<T> = {
+      map((data?: T): ResponseFormat<T> => {
+        const response = {
           message: 'Success',
           statusCode: statusCode,
           data: data,
