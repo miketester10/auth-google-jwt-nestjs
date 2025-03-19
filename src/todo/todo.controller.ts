@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   UseGuards,
   Put,
+  ParseIntPipe
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
@@ -46,7 +47,7 @@ export class TodoController {
 
   @Get(':id')
   async findOne(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: string,
     @CurrentUser() payload: JwtPayload,
   ): Promise<Todo> {
     return this.todoService.findOne(+id, payload.sub);
@@ -54,7 +55,7 @@ export class TodoController {
 
   @Put(':id')
   async update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: string,
     @Body() updateTodoDto: UpdateTodoDto,
     @CurrentUser() payload: JwtPayload,
   ): Promise<Todo> {
@@ -63,7 +64,7 @@ export class TodoController {
 
   @Delete(':id')
   async remove(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: string,
     @CurrentUser() payload: JwtPayload,
   ): Promise<Todo> {
     return this.todoService.remove(+id, payload.sub);
