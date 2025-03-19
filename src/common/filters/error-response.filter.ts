@@ -19,17 +19,13 @@ export class ErrorResponseFilter implements ExceptionFilter {
     const statusCode = exception.getStatus();
 
     const responseException: string | object = exception.getResponse();
-    const message =
+    let message =
       typeof responseException === 'string'
         ? responseException
         : (responseException as HttpExceptionBody).message;
 
     if (statusCode === HttpStatus.TOO_MANY_REQUESTS) {
-      response.status(statusCode).json({
-        message: 'API rate limit exceeded. Please try again later.',
-        statusCode: statusCode,
-      });
-      return;
+      message = 'API rate limit exceeded. Please try again later.';
     }
 
     response.status(statusCode).json({ message, statusCode });
