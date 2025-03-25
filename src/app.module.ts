@@ -8,7 +8,7 @@ import { UserModule } from './user/user.module';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { TodoModule } from './todo/todo.module';
-import { dataSourceOptions } from 'src/db/data-source';
+import { dataSourceOptions } from 'db/data-source';
 
 @Module({
   imports: [

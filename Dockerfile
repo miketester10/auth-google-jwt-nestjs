@@ -20,4 +20,4 @@ RUN npx nest build
 EXPOSE 8080
 
 # Avvia l'app NestJS
-CMD ["node", "dist/main.js"]
+CMD ["node", "dist/src/main.js"]
