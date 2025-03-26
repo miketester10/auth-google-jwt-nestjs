@@ -38,8 +38,8 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
-  app.useGlobalInterceptors(new SuccessResponseInterceptor()); // Formatta le risposte di successo a livello globale
-  app.useGlobalFilters(new ErrorResponseFilter()); // Formatta le risposte di errore a livello globale
+  app.useGlobalInterceptors(new SuccessResponseInterceptor()); // Formatta le risposte di successo a livello globale (posso usarlo quì perchè nel costruttore dell'interceptor non ci sono dipendenze da injectare, in quel caso per usarlo a livello globale bisogna dichiararlo nel modulo app.module.ts con {provide: APP_INTERCEPTOR, useClass: SuccessResponseInterceptor})
+  app.useGlobalFilters(new ErrorResponseFilter()); // Formatta le risposte di errore a livello globale (posso usarlo quì perchè nel costruttore del filter non ci sono dipendenze da injectare, in quel caso per usarlo a livello globale bisogna dichiararlo nel modulo app.module.ts con {provide: APP_FILTER, useClass: ErrorResponseFilter})
 
   await app.listen(process.env.PORT ?? 8080);
 }
