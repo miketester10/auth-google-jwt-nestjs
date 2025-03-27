@@ -6,6 +6,7 @@ import {
   ArgumentsHost,
   HttpException,
   HttpExceptionBody,
+  HttpExceptionBodyMessage,
 } from '@nestjs/common';
 import { Response } from 'express';
 
@@ -17,7 +18,7 @@ export class ErrorResponseFilter implements ExceptionFilter {
     const statusCode = exception.getStatus();
 
     const responseException: string | object = exception.getResponse();
-    const message =
+    const message: HttpExceptionBodyMessage =
       typeof responseException === 'string'
         ? responseException
         : (responseException as HttpExceptionBody).message;
