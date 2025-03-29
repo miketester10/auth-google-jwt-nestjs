@@ -1,0 +1,38 @@
+# Dipendenze
+node_modules/
+
+# Ambiente e configurazioni sensibili
+.env
+.env.local
+.env.*.local
+*.env
+
+# Build e file generati
+dist/
+build/
+*.log
+logs/
+
+# Version Control
+.git/
+.gitignore
+.github/
+
+# IDE e editor
+.vscode/
+.idea/
+
+# File di sviluppo e test
+coverage/
+test/
+**/*.spec.ts
+**/*.test.ts
+
+# File temporanei
+.tmp/
+temp/
+
+# Altro
+docker-compose.yml
+Dockerfile
+.dockerignore
