@@ -10,6 +10,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
+import { ResponseError } from '../interfaces/response-format.interface';
 
 @Catch()
 export class ErrorResponseFilter implements ExceptionFilter {
@@ -34,6 +35,11 @@ export class ErrorResponseFilter implements ExceptionFilter {
       message = exception.message;
     }
 
-    response.status(statusCode).json({ message, statusCode });
+    const responseErrorBody: ResponseError = {
+      message,
+      statusCode,
+    };
+
+    response.status(statusCode).json(responseErrorBody);
   }
 }

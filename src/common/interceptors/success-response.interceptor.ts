@@ -8,29 +8,28 @@ import {
 } from '@nestjs/common';
 import { map, Observable } from 'rxjs';
 import { Response } from 'express';
-import { ResponseFormat } from '../interfaces/response-format.interface';
+import { ResponseSuccess } from '../interfaces/response-format.interface';
 
-@Injectable() // T is the type of data that will be returned by the handler (controller)
-// first T is the type of data that will be returned by the handler (controller), second T is the type of data that will be returned by the interceptor.
-export class SuccessResponseInterceptor<T>
-  implements NestInterceptor<T, ResponseFormat<T>>
+@Injectable() 
+export class SuccessResponseInterceptor<T> // T is the type of data that will be returned by the handler (controller)
+  implements NestInterceptor<T, ResponseSuccess<T>> // first T is the type of data that will be returned by the handler (controller), second T is the type of data that will be returned by the interceptor.
 {
   intercept(
     context: ExecutionContext,
     next: CallHandler,
-  ): Observable<ResponseFormat<T>> {
+  ): Observable<ResponseSuccess<T>> {
     const statusCode = context
       .switchToHttp()
       .getResponse<Response>().statusCode;
 
     return next.handle().pipe(
-      map((data?: T): ResponseFormat<T> => {
-        const response = {
+      map((data?: T): ResponseSuccess<T> => {
+        const responseSuccessBody: ResponseSuccess<T> = {
           message: 'Success',
           statusCode: statusCode,
           data: data,
         };
-        return response;
+        return responseSuccessBody;
       }),
     );
   }
