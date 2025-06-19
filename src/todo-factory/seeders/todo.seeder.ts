@@ -1,33 +1,33 @@
-import { InjectRepository } from '@nestjs/typeorm';
-import { Todo } from 'src/todo/entities/todo.entity';
-import { GoogleUser } from 'src/user/entities/user.entity';
-import { Repository } from 'typeorm';
+import { UserRepository } from 'src/user/repository/user.repository';
+import { TodoRepository } from 'src/todo/repository/todo.repository';
 import { todoFactory } from '../factories/todo.factory';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class TodoSeeder {
   constructor(
-    @InjectRepository(Todo)
-    private readonly todoRepo: Repository<Todo>,
-    @InjectRepository(GoogleUser)
-    private readonly userRepo: Repository<GoogleUser>,
+    private readonly userRepository: UserRepository,
+    private readonly todoRepository: TodoRepository,
   ) {}
 
   async seed() {
     console.log('✅ Seeding Todos...');
-    const users = await this.userRepo.find();
+    const users = await this.userRepository.findAll();
 
     for (const user of users) {
-      const todos = Array.from({ length: 6 }).map(() =>
-        this.todoRepo.create(todoFactory(user)),
+      await Promise.all(
+        Array.from({ length: 6 }).map(() =>
+          this.todoRepository.create(todoFactory(user)),
+        ),
       );
-      await this.todoRepo.save(todos);
     }
 
-    console.log('✅ Todos creati per gli utenti esistenti.');
+    console.log('✅ Seeding completato con successo.');
   }
 
   async drop() {
-    await this.todoRepo.delete({});
-    console.log('🗑️ Todos eliminati');
+    console.log('🗑️ Eliminazione Todos...');
+    await this.todoRepository.removeAll();
+    console.log('🗑️ Todos eliminati con successo.');
   }
 }

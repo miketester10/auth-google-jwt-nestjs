@@ -5,7 +5,8 @@ import { config } from 'dotenv';
 // Carica il file .env
 config();
 
-const isSeeder = process.env.SEED_MODE === 'true';
+const seedMode = process.env.SEED_MODE === 'true';
+const clearMode = process.env.CLEAR_MODE === 'true';
 
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
@@ -14,7 +15,9 @@ export const dataSourceOptions: DataSourceOptions = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [isSeeder ? 'src/**/*.entity.ts' : 'dist/**/*.entity.js'],
+  entities: [
+    seedMode || clearMode ? 'src/**/*.entity.ts' : 'dist/**/*.entity.js',
+  ],
   migrations: ['dist/db/migrations/*.js'],
   synchronize: process.env.NODE_ENV !== 'production',
   // logging: true,

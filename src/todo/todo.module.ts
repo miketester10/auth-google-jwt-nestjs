@@ -11,5 +11,6 @@ import { UserModule } from 'src/user/user.module';
   imports: [TypeOrmModule.forFeature([Todo]), UserModule],
   controllers: [TodoController],
   providers: [TodoService, TodoRepository],
+  exports: [TodoRepository],
 })
 export class TodoModule {}

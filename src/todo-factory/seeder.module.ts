@@ -1,14 +1,17 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { GoogleUser } from 'src/user/entities/user.entity';
 import { dataSourceOptions } from 'db/data-source';
-import { Todo } from 'src/todo/entities/todo.entity';
 import { TodoSeeder } from './seeders/todo.seeder';
+import { UserModule } from 'src/user/user.module';
+import { TodoModule } from 'src/todo/todo.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot(dataSourceOptions),
-    TypeOrmModule.forFeature([Todo, GoogleUser]),
+    UserModule,
+    TodoModule,
   ],
   providers: [TodoSeeder],
 })

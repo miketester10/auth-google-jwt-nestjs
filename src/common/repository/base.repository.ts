@@ -57,4 +57,12 @@ export abstract class BaseRepository<T extends ObjectLiteral> {
   async remove(entity: T): Promise<T> {
     return this.repository.remove(entity);
   }
+
+  /**
+   * Elimina tutti i record
+   * @returns void
+   */
+  async removeAll(): Promise<void> {
+    await this.repository.delete({});
+  }
 }

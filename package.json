@@ -22,7 +22,8 @@
     "migration:generate": "npm run typeorm -- migration:generate",
     "migration:run": "npm run typeorm -- migration:run",
     "migration:revert": "npm run typeorm -- migration:revert",
-    "seed": "SEED_MODE=true ts-node -r tsconfig-paths/register src/todo-factory/seeder.ts"
+    "seed": "SEED_MODE=true ts-node -r tsconfig-paths/register src/todo-factory/seeder.ts",
+    "clear": "CLEAR_MODE=true ts-node -r tsconfig-paths/register src/todo-factory/seeder.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^9.8.0",

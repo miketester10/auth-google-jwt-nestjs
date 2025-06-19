@@ -10,6 +10,6 @@ import { UserRepository } from './repository/user.repository';
   imports: [TypeOrmModule.forFeature([GoogleUser])],
   controllers: [UserController],
   providers: [UserService, UserRepository],
-  exports: [UserService],
+  exports: [UserService, UserRepository],
 })
 export class UserModule {}
